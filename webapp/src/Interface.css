@@ -1,0 +1,17 @@
+.me {
+    color: green;
+    animation: 2s glowEffect alternate infinite;
+}
+.teammate {
+    color: rgb(50, 50, 50);
+}
+
+@keyframes glowEffect
+{
+    from {
+        color: green;
+    }
+    to {
+        color: lime;
+    }
+}
