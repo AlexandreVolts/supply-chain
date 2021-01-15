@@ -4,20 +4,25 @@ import { Role } from "./Role";
 
 export class Player
 {
-    public supply = 0;
-    public wanted = 0;
     public hasPlayed = false;
-    private _stock = Game.DEFAULT_STOCK;
+    private readonly supplyStack:number[] = [Game.DEFAULT_STOCK];
+    private _stock = this.role === Role.SELLER ? 0 : Game.DEFAULT_STOCK;
     private _debt = 0;
+    private _incoming = 0;
 
     constructor(public readonly socket:Socket, public readonly role:Role)
     {}
 
-    public drain(qty:number):number
+    public addToStack(qty:number)
+    {
+        this.supplyStack.push(qty);
+    }
+    public drain():number
     {
         const stock = this._stock;
+        const supply = this.supplyStack.shift()!;
 
-        this._stock -= qty;
+        this._stock -= supply;
         if (this._stock < 0) {
             this._debt += -this._stock;
             this._stock = 0;
@@ -31,21 +36,22 @@ export class Player
             this._stock += -this._debt;
             this._debt = 0;
         }
-        return (qty);
+        return (supply);
     }
     public fill(qty:number):number
     {
         this._stock += qty;
+        this._incoming = qty;
         return (this._stock);
     }
     public play()
     {
-        this.wanted = 0;
         this.hasPlayed = false;
         this.socket.emit("play", {
-            supply: this.supply,
+            supply: this.supplyStack[0],
             stock: this._stock,
-            debt: this._debt
+            debt: this._debt,
+            incoming: this._incoming
         });
     }
 }

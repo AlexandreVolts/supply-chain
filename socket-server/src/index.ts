@@ -5,7 +5,7 @@ async function main():Promise<void>
 {
     const ss = new io.Server(parseInt(process.env.PORT || "8888"), {
         cors: {
-            origin: "url.com",
+            origin: "*",
             methods: ["GET", "POST"]
         }
     });
@@ -14,9 +14,10 @@ async function main():Promise<void>
     ss.on("connection", (socket) => {
         socket.on("room", (data:{room:string}) => {
             const game = games.get(data.room);
-            
+
             if (!data?.room)
                 return;
+            console.log("room ", data.room);
             if (!game)
                 games.set(data.room, new Game(ss, data.room));
             games.get(data.room)!.add(socket);

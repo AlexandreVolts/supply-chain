@@ -1,6 +1,9 @@
 {
   "name": "socket-server",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "nodemon build/index.js"
+  },
   "main": "index.js",
   "author": "Alexandre Cochet",
   "license": "MIT",
