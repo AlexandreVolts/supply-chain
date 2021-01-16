@@ -5,7 +5,8 @@ import { Role } from "./Role";
 export class Player
 {
     public hasPlayed = false;
-    private readonly supplyStack:number[] = [Game.DEFAULT_STOCK];
+    private readonly supplyStack = [Game.DEFAULT_STOCK, Game.DEFAULT_STOCK];
+    private readonly history:number[] = [];
     private _stock = this.role === Role.SELLER ? 0 : Game.DEFAULT_STOCK;
     private _debt = 0;
     private _incoming = 0;
@@ -42,6 +43,7 @@ export class Player
     {
         this._stock += qty;
         this._incoming = qty;
+        this.history.push(this._stock);
         return (this._stock);
     }
     public play()
@@ -51,7 +53,8 @@ export class Player
             supply: this.supplyStack[0],
             stock: this._stock,
             debt: this._debt,
-            incoming: this._incoming
+            incoming: this._incoming,
+            history: this.history
         });
     }
 }

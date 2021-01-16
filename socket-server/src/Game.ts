@@ -9,7 +9,7 @@ export class Game
     private readonly supplyEngine = new SupplyEngine();
     private readonly roles:Role[] = Object.values(Role).filter((r) => typeof r !== "string") as Role[];
     private readonly players:Player[] = new Array<Player>(this.roles.length);
-    private readonly bank:number[] = [Game.DEFAULT_STOCK];
+    private readonly bank:number[] = [Game.DEFAULT_STOCK, Game.DEFAULT_STOCK];
 
     constructor(private readonly io:Server, private readonly roomId:string)
     {}
@@ -25,7 +25,7 @@ export class Game
         }
         this.players.forEach((p) => p.play());
     }
-    private manageDescendingSupply = (data:any) =>
+    private manageDescendingSupply(data:any, p:Player)
     {
         const remaining = this.players.filter((p) => !p.hasPlayed).length;
 
@@ -45,7 +45,7 @@ export class Game
     {
         for (const p of this.players) {
             p.socket.emit("start", { role: p.role });
-            p.socket.on("supply", this.manageDescendingSupply);
+            p.socket.on("supply", (data) => this.manageDescendingSupply(data, p));
         }
         this.manageAscendingSupply();
     }
