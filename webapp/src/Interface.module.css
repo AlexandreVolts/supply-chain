@@ -1,0 +1,36 @@
+.container {
+    margin: "auto";
+    width: 80%;
+    min-width: 600px;
+    display: "flex";
+    flex-direction: "column";
+    flex-wrap: wrap;
+    background-color: #ecf0f1;
+    border-radius: 20px;
+    padding: 20px;
+}
+.roleContainer {
+    display: flex;
+    justify-content: space-around;
+}
+.role {
+    width: 200px;
+    font-size: 60px;
+}
+.me:global {
+    color: green;
+    animation: 2s glowEffect alternate infinite;
+}
+.teammate {
+    color: rgb(50, 50, 50);
+}
+
+@keyframes :global(glowEffect)
+{
+    from {
+        color: green;
+    }
+    to {
+        color: lime;
+    }
+}

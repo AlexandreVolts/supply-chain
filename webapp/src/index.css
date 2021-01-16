@@ -6,3 +6,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+button {
+    padding: 20px;
+    color: white;
+    background-color: #2ecc71;
+    border: none;
+    border-bottom: 8px solid #27ae60;
+    font-size: 20px;
+    transition: all 0.25s;
+}
+button:active {
+    transform: translateY(8px);
+    border-bottom: 0px solid #27ae60;
+}
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
